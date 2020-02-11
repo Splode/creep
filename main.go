@@ -7,11 +7,13 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
 	"time"
 )
 
 func main() {
 	url := flag.String("url", "", "The URL of the resource to get")
+	filename := flag.String("name", "file", "The filename")
 	count := flag.Int("count", 1, "The number of times to get the resource")
 	out := flag.String("out", "", "The output directory")
 	flag.Parse()
@@ -25,13 +27,23 @@ func main() {
 		panic(errors.New("count must be greater than 0"))
 	}
 
+	if *out != "" {
+		err := parseOut(*out)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+
 	for i := 1; i <= *count; i++ {
-		file := fmt.Sprintf("%svisitor-%d.jpg", *out, i)
+		file := fmt.Sprintf("%s-%d.jpg", *filename, i)
+		outPath := filepath.Join(*out, file)
 		time.Sleep(time.Second)
-		fmt.Printf("downloading %s to %s\n", *url, file)
-		err := downloadFile(file, *url)
+		fmt.Printf("downloading %s to %s...\n", *url, outPath)
+		err := downloadFile(outPath, *url)
 		if err != nil {
 			fmt.Printf("failed to download %s: %s\n", file, err.Error())
+		} else {
+			fmt.Printf("successfully downloaded %s to %s\n", file, outPath)
 		}
 	}
 }
@@ -62,5 +74,19 @@ func downloadFile(filepath, url string) error {
 		return err
 	}
 
+	return nil
+}
+
+func parseOut(out string) error {
+	if _, err := os.Stat(out); err != nil {
+		if os.IsNotExist(err) {
+			err := os.MkdirAll(out, os.ModePerm)
+			if err != nil {
+				return err
+			}
+		} else {
+			return err
+		}
+	}
 	return nil
 }
