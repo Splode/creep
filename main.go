@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"sync"
 	"time"
 )
 
@@ -16,6 +17,7 @@ func main() {
 	filename := flag.String("name", "file", "The filename")
 	count := flag.Int("count", 1, "The number of times to get the resource")
 	out := flag.String("out", "", "The output directory")
+	throttle := flag.Int("throttle", 0, "Duration to wait between downloads")
 	flag.Parse()
 	// url := "https://thispersondoesnotexist.com/image"
 
@@ -34,18 +36,39 @@ func main() {
 		}
 	}
 
+	if *throttle < 0 {
+		fmt.Println("throttle must be a positive integer value")
+		os.Exit(1)
+	}
+
+	var wg sync.WaitGroup
+	wg.Add(*count)
+
 	for i := 1; i <= *count; i++ {
 		file := fmt.Sprintf("%s-%d.jpg", *filename, i)
 		outPath := filepath.Join(*out, file)
-		time.Sleep(time.Second)
-		fmt.Printf("downloading %s to %s...\n", *url, outPath)
-		err := downloadFile(outPath, *url)
-		if err != nil {
-			fmt.Printf("failed to download %s: %s\n", file, err.Error())
-		} else {
-			fmt.Printf("successfully downloaded %s to %s\n", file, outPath)
+		if *throttle > 0 {
+			var s string
+			if *throttle > 1 {
+				s = "seconds"
+			} else {
+				s = "seconds"
+			}
+			fmt.Printf("throttling for %d %s...\n", *throttle, s)
+			time.Sleep(time.Second * time.Duration(*throttle))
 		}
+		fmt.Printf("downloading %s to %s...\n", *url, outPath)
+		go func(wg *sync.WaitGroup) {
+			err := downloadFile(outPath, *url)
+			if err != nil {
+				fmt.Printf("failed to download %s: %s\n", file, err.Error())
+			} else {
+				fmt.Printf("successfully downloaded %s to %s\n", file, outPath)
+			}
+			wg.Done()
+		}(&wg)
 	}
+	wg.Wait()
 }
 
 func downloadFile(filepath, url string) error {
