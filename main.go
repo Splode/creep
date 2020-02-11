@@ -1,6 +1,8 @@
 package main
 
 import (
+	"errors"
+	"flag"
 	"fmt"
 	"io"
 	"net/http"
@@ -9,12 +11,25 @@ import (
 )
 
 func main() {
-	url := "https://thispersondoesnotexist.com/image"
-	for i := 1; i <= 2; i++ {
-		file := fmt.Sprintf("out/visitor-%d.jpg", i)
+	url := flag.String("url", "", "The URL of the resource to get")
+	count := flag.Int("count", 1, "The number of times to get the resource")
+	out := flag.String("out", "", "The output directory")
+	flag.Parse()
+	// url := "https://thispersondoesnotexist.com/image"
+
+	if *url == "" {
+		panic(errors.New("a valid URL must be provided"))
+	}
+
+	if *count <= 0 {
+		panic(errors.New("count must be greater than 0"))
+	}
+
+	for i := 1; i <= *count; i++ {
+		file := fmt.Sprintf("%svisitor-%d.jpg", *out, i)
 		time.Sleep(time.Second)
-		fmt.Printf("downloading %s to %s\n", url, file)
-		err := downloadFile(file, url)
+		fmt.Printf("downloading %s to %s\n", *url, file)
+		err := downloadFile(file, *url)
 		if err != nil {
 			fmt.Printf("failed to download %s: %s\n", file, err.Error())
 		}
