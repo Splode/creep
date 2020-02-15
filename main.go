@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -42,7 +43,7 @@ func main() {
 	wg.Add(*count)
 
 	for i := 1; i <= *count; i++ {
-		file := fmt.Sprintf("%s-%d.jpg", *filename, i)
+		file := fmt.Sprintf("%s-%d", *filename, i)
 		outPath := filepath.Join(*out, file)
 		if *throttle > 0 {
 			var s string
@@ -69,25 +70,28 @@ func main() {
 }
 
 func downloadFile(filepath, url string) error {
-	// create file
-	out, err := os.Create(filepath)
-	if err != nil {
-		return err
-	}
-	defer out.Close()
-
 	// get data
 	res, err := http.Get(url)
 	if err != nil {
 		return err
 	}
+	// attempt to get file ext
+	ext, err := getExtHeader(res)
+	if err != nil {
+		return err
+	}
 	defer res.Body.Close()
-
 	// check server response
 	if res.StatusCode != http.StatusOK {
 		return fmt.Errorf("bad status: %s", res.Status)
 	}
-
+	// create file
+	path := fmt.Sprintf("%s.%s", filepath, ext)
+	out, err := os.Create(path)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
 	// write body to file
 	_, err = io.Copy(out, res.Body)
 	if err != nil {
@@ -97,7 +101,8 @@ func downloadFile(filepath, url string) error {
 	return nil
 }
 
-// exit prints the given message to the console and terminates the application with an error-code.
+// exit prints the given message to the console and terminates the application
+// with an error-code.
 func exit(msg string) {
 	fmt.Println(msg)
 	os.Exit(1)
@@ -115,4 +120,14 @@ func parseOut(out string) error {
 		}
 	}
 	return nil
+}
+
+func getExtHeader(r *http.Response) (string, error) {
+	ct := r.Header["Content-Type"][0]
+	mimes := map[string]string{"image/.jpg": "jpg"}
+	mime, prs := mimes[ct]
+	if !prs {
+		return "", errors.New("could not detect mime-type from http response")
+	}
+	return mime, nil
 }
