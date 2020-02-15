@@ -1,7 +1,6 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -13,32 +12,30 @@ import (
 )
 
 func main() {
-	url := flag.String("url", "", "The URL of the resource to get")
+	url := flag.String("url", "https://thispersondoesnotexist.com/image", "The URL of the resource to get")
 	filename := flag.String("name", "file", "The filename")
 	count := flag.Int("count", 1, "The number of times to get the resource")
 	out := flag.String("out", "", "The output directory")
 	throttle := flag.Int("throttle", 0, "Duration to wait between downloads")
 	flag.Parse()
-	// url := "https://thispersondoesnotexist.com/image"
 
 	if *url == "" {
-		panic(errors.New("a valid URL must be provided"))
+		exit("a valid URL must be provided")
 	}
 
 	if *count <= 0 {
-		panic(errors.New("count must be greater than 0"))
+		exit("count must be greater than 0")
 	}
 
 	if *out != "" {
 		err := parseOut(*out)
 		if err != nil {
-			panic(err.Error())
+			exit(err.Error())
 		}
 	}
 
 	if *throttle < 0 {
-		fmt.Println("throttle must be a positive integer value")
-		os.Exit(1)
+		exit("throttle must be a positive integer value")
 	}
 
 	var wg sync.WaitGroup
@@ -52,7 +49,7 @@ func main() {
 			if *throttle > 1 {
 				s = "seconds"
 			} else {
-				s = "seconds"
+				s = "second"
 			}
 			fmt.Printf("throttling for %d %s...\n", *throttle, s)
 			time.Sleep(time.Second * time.Duration(*throttle))
@@ -98,6 +95,12 @@ func downloadFile(filepath, url string) error {
 	}
 
 	return nil
+}
+
+// exit prints the given message to the console and terminates the application with an error-code.
+func exit(msg string) {
+	fmt.Println(msg)
+	os.Exit(1)
 }
 
 func parseOut(out string) error {
