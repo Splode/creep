@@ -1,0 +1,13 @@
+version: '2'
+
+tasks:
+  build:
+    deps: [build-dir]
+    cmds:
+      - go build -o build
+
+  build-dir:
+    cmds:
+      - mkdir build
+    status:
+      - test -d build
