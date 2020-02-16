@@ -18,11 +18,11 @@ func main() {
 	flag.Parse()
 
 	if *url == "" {
-		exit("a valid URL must be provided")
+		exit("A URL must be provided")
 	}
 
 	if *count <= 0 {
-		exit("count must be greater than 0")
+		exit("Count must be greater than 0")
 	}
 
 	if *out != "" {
@@ -33,7 +33,7 @@ func main() {
 	}
 
 	if *throttle < 0 {
-		exit("throttle must be a positive integer value")
+		exit("Throttle must be a positive integer")
 	}
 
 	var wg sync.WaitGroup
@@ -42,7 +42,7 @@ func main() {
 	for i := 1; i <= *count; i++ {
 		file := fmt.Sprintf("%s-%d", *filename, i)
 		outPath := filepath.Join(*out, file)
-		if *throttle > 0 {
+		if *throttle > 0 && i > 1 {
 			var s string
 			if *throttle > 1 {
 				s = "seconds"
