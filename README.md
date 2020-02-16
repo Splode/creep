@@ -117,7 +117,7 @@ Why_Go and not simply script `curl` or python? Go's concurrency model makes mult
 
 ## Contributing
 
-See [Contributing](./.github/CONTRIBUTING.md).
+Contributions are welcome! See Contributing for details.
 
 ## Author
 
