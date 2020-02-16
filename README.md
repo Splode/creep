@@ -2,7 +2,7 @@
 
 A specialized image download utility, useful for grabbing massive amounts of random images.
 
-![creep banner image](https://raw.githubusercontent.com/Splode/creep/master/.github/banner_v1.1.png?token=ADI67ZQJHHJ5VR6PEPMRDBK6JG36A)
+<img src="./.github/banner_v1.1.png">
 
 Creep can be used to generated gobs of random image data quickly given a single URL. It has no dependencies or requirements and is cross-platform.
 
