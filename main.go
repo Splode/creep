@@ -11,7 +11,7 @@ import (
 func main() {
 	config, err := handleFlags()
 	if err != nil {
-		exit(err.Error())
+		exit(fmt.Sprintf("Failed to parse arguments: %s", err.Error()))
 	}
 
 	var wg sync.WaitGroup
@@ -27,16 +27,16 @@ func main() {
 			} else {
 				s = "second"
 			}
-			fmt.Printf("throttling for %d %s...\n", config.throttle, s)
+			fmt.Printf("Throttling for %d %s...\n", config.throttle, s)
 			time.Sleep(time.Second * time.Duration(config.throttle))
 		}
-		fmt.Printf("downloading %s to %s...\n", config.url, outPath)
+		fmt.Printf("Downloading %s to %s...\n", config.url, outPath)
 		go func(wg *sync.WaitGroup) {
 			err := downloadFile(outPath, config.url)
 			if err != nil {
-				fmt.Printf("failed to download %s: %s\n", file, err.Error())
+				fmt.Printf("Failed to download %s: %s\n", file, err.Error())
 			} else {
-				fmt.Printf("successfully downloaded %s to %s\n", file, outPath)
+				fmt.Printf("Successfully downloaded %s to %s\n", file, outPath)
 			}
 			wg.Done()
 		}(&wg)
