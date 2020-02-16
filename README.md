@@ -113,11 +113,11 @@ The following URLs will serve a random image upon request:
 
 I frequently find myself needing to seed application data sets with lots of images for testing or demos. Given a few minutes searching for a tool, I wasn't able to find something that suited my requirements, so I built one.
 
-Why_Go and not simply script `curl` or python? Go's concurrency model makes multiple HTTP requests _fast_, and being able to compile to a single, cross-platform binary is handy.
+Why Go and not simply script `curl` or python? Go's concurrency model makes multiple HTTP requests _fast_, and being able to compile to a single, cross-platform binary is handy. Besides, Go's cool.
 
 ## Contributing
 
-Contributions are welcome! See Contributing for details.
+Contributions are welcome! See [CONTRIBUTING](https://github.com/Splode/creep/blob/master/.github/CONTRIBUTING.md) for details.
 
 ## Author
 
@@ -125,4 +125,4 @@ Contributions are welcome! See Contributing for details.
 
 ## License
 
-MIT
+[MIT](https://github.com/Splode/creep/blob/master/LICENSE)
