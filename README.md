@@ -1,29 +1,37 @@
 # creep
 
-A highly-specialized image download utility, useful for grabbing massive amounts of random images.
+A specialized image download utility, useful for grabbing massive amounts of random images.
+
+Creep can be used to generated gobs of random image data quickly given a single URL. It has no dependencies or requirements and is cross-platform.
 
 - [creep](#creep)
   - [Install](#install)
-    - [Binaries](#binaries)
-    - [Go Module](#go-module)
-    - [Source](#source)
+    - [Prebuilt Binaries](#prebuilt-binaries)
+    - [Build from Source](#build-from-source)
   - [Usage](#usage)
     - [Options](#options)
     - [Examples](#examples)
     - [Sample URLs](#sample-urls)
   - [Why](#why)
+  - [Contributing](#contributing)
   - [Author](#author)
   - [License](#license)
 
 ## Install
 
-### Binaries
+### Prebuilt Binaries
 
-### Go Module
+Install a prebuilt binary from the [releases page](https://github.com/Splode/creep/releases/latest).
 
-### Source
+### Build from Source
+
+```bash
+go get github.com/splode/creep
+```
 
 ## Usage
+
+Simply pass in a URL that returns an image to `creep` to download. Pass in a number of images, and `creep` will download them all concurrently.
 
 ```
 Usage:
@@ -73,8 +81,22 @@ Throttles downloads by the given number of seconds. Some URLs will return a give
 
 ### Examples
 
+Download `32` random images to the current directory.
+
 ```bash
-creep -u 
+ creep -u https://thispersondoesnotexist.com/image -c 32
+```
+
+Download `64` random images using the base filename `random` to the `downloads` folder, throttling the download rate to `3` seconds.
+
+```bash
+creep --url=https://source.unsplash.com/random --name=random --out=downloads --count=64 --throttle=3
+```
+
+Download a single random image to the current directory.
+
+```bash
+creep -u https://source.unsplash.com/random
 ```
 
 ### Sample URLs
@@ -89,8 +111,18 @@ The following URLs will serve a random image upon request:
 
 ## Why
 
+I frequently find myself needing to seed application data sets with lots of images for testing or demos. Given a few minutes searching for a tool, I wasn't able to find something that suited my requirements, so I built one.
+
+Why_Go and not simply script `curl` or python? Go's concurrency model makes multiple HTTP requests _fast_, and being able to compile to a single, cross-platform binary is handy.
+
+## Contributing
+
+See [Contributing](./.github/CONTRIBUTING.md).
+
 ## Author
 
 [Christopher Murphy](https://github.com/Splode)
 
 ## License
+
+MIT
