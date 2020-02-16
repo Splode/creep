@@ -1,11 +1,8 @@
 package main
 
 import (
-	"errors"
 	"flag"
 	"fmt"
-	"io"
-	"net/http"
 	"os"
 	"path/filepath"
 	"sync"
@@ -13,8 +10,8 @@ import (
 )
 
 func main() {
-	url := flag.String("url", "https://thispersondoesnotexist.com/image", "The URL of the resource to get")
-	filename := flag.String("name", "file", "The filename")
+	url := flag.String("url", "", "The URL of the resource to get")
+	filename := flag.String("name", "creep", "The filename")
 	count := flag.Int("count", 1, "The number of times to get the resource")
 	out := flag.String("out", "", "The output directory")
 	throttle := flag.Int("throttle", 0, "Duration to wait between downloads")
@@ -69,38 +66,6 @@ func main() {
 	wg.Wait()
 }
 
-func downloadFile(filepath, url string) error {
-	// get data
-	res, err := http.Get(url)
-	if err != nil {
-		return err
-	}
-	// attempt to get file ext
-	ext, err := getExtHeader(res)
-	if err != nil {
-		return err
-	}
-	defer res.Body.Close()
-	// check server response
-	if res.StatusCode != http.StatusOK {
-		return fmt.Errorf("bad status: %s", res.Status)
-	}
-	// create file
-	path := fmt.Sprintf("%s.%s", filepath, ext)
-	out, err := os.Create(path)
-	if err != nil {
-		return err
-	}
-	defer out.Close()
-	// write body to file
-	_, err = io.Copy(out, res.Body)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
 // exit prints the given message to the console and terminates the application
 // with an error-code.
 func exit(msg string) {
@@ -108,6 +73,8 @@ func exit(msg string) {
 	os.Exit(1)
 }
 
+// parseOut validates the given directory path, creating the directory at the
+// given path if it does not exist.
 func parseOut(out string) error {
 	if _, err := os.Stat(out); err != nil {
 		if os.IsNotExist(err) {
@@ -120,14 +87,4 @@ func parseOut(out string) error {
 		}
 	}
 	return nil
-}
-
-func getExtHeader(r *http.Response) (string, error) {
-	ct := r.Header["Content-Type"][0]
-	mimes := map[string]string{"image/.jpg": "jpg"}
-	mime, prs := mimes[ct]
-	if !prs {
-		return "", errors.New("could not detect mime-type from http response")
-	}
-	return mime, nil
 }
