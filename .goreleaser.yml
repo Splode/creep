@@ -5,6 +5,8 @@ builds:
     - darwin
     - linux
     - windows
+  ldflags:
+    - -s -w -X main.Version={{ .Version }}
 archives:
 - replacements:
     darwin: macOS

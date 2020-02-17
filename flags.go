@@ -7,11 +7,13 @@ import (
 	"os"
 )
 
-const version = "0.1.1"
+// Version of the app. This is set by goreleaser during release builds using
+// the latest git tag.
+var Version = "Master"
 
 func generateUsage() func() {
 	return func() {
-		fmt.Printf("\ncreep %s", version)
+		fmt.Printf("\ncreep %s", Version)
 		fmt.Println(`
 
 Downloads an image from the given URL a given number of times to the specified directory.
@@ -57,7 +59,7 @@ func handleFlags() (c *config, err error) {
 	flag.Parse()
 
 	if v {
-		fmt.Println(version)
+		fmt.Println(Version)
 		os.Exit(0)
 	}
 
