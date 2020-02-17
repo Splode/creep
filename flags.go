@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-const version = "0.1.0"
+const version = "0.1.1"
 
 func generateUsage() func() {
 	return func() {
