@@ -11,3 +11,7 @@ tasks:
       - mkdir build
     status:
       - test -d build
+  
+  release-snapshot:
+    cmds:
+      - goreleaser release --skip-publish --snapshot --rm-dist
