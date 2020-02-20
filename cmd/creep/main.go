@@ -35,7 +35,7 @@ func main() {
 		}
 		fmt.Printf("Downloading %s to %s...\n", config.URL, outPath)
 		go func(wg *sync.WaitGroup) {
-			err := download.Download(outPath, config.URL)
+			err := download.ImageFile(outPath, config.URL)
 			if err != nil {
 				fmt.Printf("Failed to download %s: %s\n", file, err.Error())
 			} else {

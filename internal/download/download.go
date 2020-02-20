@@ -16,9 +16,8 @@ var (
 	}
 )
 
-// Download saves the request body from a given URL to the provided
-// filepath.
-func Download(filepath, url string) error {
+// ImageFile saves the request body from a given URL to the provided filepath.
+func ImageFile(filepath, url string) error {
 	// get data
 	res, err := http.Get(url)
 	if err != nil {
