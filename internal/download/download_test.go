@@ -7,19 +7,27 @@ import (
 
 func TestImageFile(t *testing.T) {
 	testCases := []struct {
-		URL string
+		expectError bool
+		URL         string
 	}{
-		{URL: "https://source.unsplash.com/random"},
-		{URL: "https://thispersondoesnotexist.com/image"},
-		{URL: "https://picsum.photos/400"},
-		// {URL: "http://lorempixel.com/400/200"},
-		{URL: "https://thiscatdoesnotexist.com/"},
+		{expectError: true, URL: ""},
+		{expectError: false, URL: "https://source.unsplash.com/random"},
+		{expectError: false, URL: "https://thispersondoesnotexist.com/image"},
+		{expectError: false, URL: "https://picsum.photos/400"},
+		// {expectError: false, URL: "http://lorempixel.com/400/200"},
+		{expectError: false, URL: "https://thiscatdoesnotexist.com/"},
 	}
-	for i, testCase := range testCases {
+	for i, tc := range testCases {
 		path := fmt.Sprintf("test-%d", i)
-		err := ImageFile(path, testCase.URL)
-		if err != nil {
-			t.Error(fmt.Errorf("error on test case: %s: %s", testCase.URL, err))
+		err := ImageFile(path, tc.URL)
+		if tc.expectError {
+			if err == nil {
+				t.Fatalf("ImageFile download %s; expected error, got nil.", tc.URL)
+			}
+		} else {
+			if err != nil {
+				t.Fatalf("ImageFile returned unexpected error: %s: %v", tc.URL, err)
+			}
 		}
 	}
 }
