@@ -1,4 +1,4 @@
-package main
+package flags
 
 import (
 	"errors"
@@ -10,6 +10,58 @@ import (
 // Version of the app. This is set by goreleaser during release builds using
 // the latest git tag.
 var Version = "Master"
+
+// Config represents the command-line configuration options.
+type Config struct {
+	Count    uint
+	Name     string
+	Out      string
+	Throttle uint
+	URL      string
+}
+
+// HandleFlags parses command line arguments and returns a config.
+func HandleFlags() (c *Config, err error) {
+	c = &Config{}
+	v := false
+	flag.StringVar(&c.URL, "url", "", "")
+	flag.StringVar(&c.URL, "u", "", "")
+	flag.StringVar(&c.Name, "name", "creep", "")
+	flag.StringVar(&c.Name, "n", "creep", "")
+	flag.UintVar(&c.Count, "count", 1, "")
+	flag.UintVar(&c.Count, "c", 1, "")
+	flag.StringVar(&c.Out, "out", "", "")
+	flag.StringVar(&c.Out, "o", "", "")
+	flag.UintVar(&c.Throttle, "throttle", 0, "")
+	flag.UintVar(&c.Throttle, "t", 0, "")
+	flag.BoolVar(&v, "version", false, "")
+	flag.BoolVar(&v, "v", false, "")
+	flag.Usage = generateUsage()
+	flag.Parse()
+
+	if v {
+		fmt.Println(Version)
+		os.Exit(0)
+	}
+
+	if c.URL == "" {
+		err = errors.New("expected a URL, none given")
+	}
+
+	if c.Count <= 0 {
+		err = fmt.Errorf("expected count to be an integer greater than 0, %d given", c.Count)
+	}
+
+	if c.Out != "" {
+		err = parseOut(c.Out)
+	}
+
+	if err != nil {
+		return &Config{}, err
+	}
+
+	return c, err
+}
 
 func generateUsage() func() {
 	return func() {
@@ -37,49 +89,6 @@ Example usage:
   creep --url=https://source.unsplash.com/random --name=random --out=downloads --count=64 --throttle=3
 		`)
 	}
-}
-
-// handleFlags parses command line arguments and returns a config.
-func handleFlags() (c *config, err error) {
-	c = &config{}
-	v := false
-	flag.StringVar(&c.url, "url", "", "")
-	flag.StringVar(&c.url, "u", "", "")
-	flag.StringVar(&c.name, "name", "creep", "")
-	flag.StringVar(&c.name, "n", "creep", "")
-	flag.UintVar(&c.count, "count", 1, "")
-	flag.UintVar(&c.count, "c", 1, "")
-	flag.StringVar(&c.out, "out", "", "")
-	flag.StringVar(&c.out, "o", "", "")
-	flag.UintVar(&c.throttle, "throttle", 0, "")
-	flag.UintVar(&c.throttle, "t", 0, "")
-	flag.BoolVar(&v, "version", false, "")
-	flag.BoolVar(&v, "v", false, "")
-	flag.Usage = generateUsage()
-	flag.Parse()
-
-	if v {
-		fmt.Println(Version)
-		os.Exit(0)
-	}
-
-	if c.url == "" {
-		err = errors.New("expected a URL, none given")
-	}
-
-	if c.count <= 0 {
-		err = fmt.Errorf("expected count to be an integer greater than 0, %d given", c.count)
-	}
-
-	if c.out != "" {
-		err = parseOut(c.out)
-	}
-
-	if err != nil {
-		return &config{}, err
-	}
-
-	return c, err
 }
 
 // parseOut validates the given directory path, creating the directory at the

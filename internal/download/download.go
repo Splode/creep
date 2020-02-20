@@ -1,4 +1,4 @@
-package main
+package download
 
 import (
 	"errors"
@@ -16,9 +16,9 @@ var (
 	}
 )
 
-// downloadFile saves the request body from a given URL to the provided
+// Download saves the request body from a given URL to the provided
 // filepath.
-func downloadFile(filepath, url string) error {
+func Download(filepath, url string) error {
 	// get data
 	res, err := http.Get(url)
 	if err != nil {

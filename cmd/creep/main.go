@@ -6,33 +6,36 @@ import (
 	"path/filepath"
 	"sync"
 	"time"
+
+	"github.com/Splode/creep/internal/download"
+	"github.com/Splode/creep/internal/flags"
 )
 
 func main() {
-	config, err := handleFlags()
+	config, err := flags.HandleFlags()
 	if err != nil {
 		exit(fmt.Sprintf("Failed to parse arguments: %s", err.Error()))
 	}
 
 	var wg sync.WaitGroup
-	wg.Add(int(config.count))
+	wg.Add(int(config.Count))
 
-	for i := 1; i <= int(config.count); i++ {
-		file := fmt.Sprintf("%s-%d", config.name, i)
-		outPath := filepath.Join(config.out, file)
-		if config.throttle > 0 && i > 1 {
+	for i := 1; i <= int(config.Count); i++ {
+		file := fmt.Sprintf("%s-%d", config.Name, i)
+		outPath := filepath.Join(config.Out, file)
+		if config.Throttle > 0 && i > 1 {
 			var s string
-			if config.throttle > 1 {
+			if config.Throttle > 1 {
 				s = "seconds"
 			} else {
 				s = "second"
 			}
-			fmt.Printf("Throttling for %d %s...\n", config.throttle, s)
-			time.Sleep(time.Second * time.Duration(config.throttle))
+			fmt.Printf("Throttling for %d %s...\n", config.Throttle, s)
+			time.Sleep(time.Second * time.Duration(config.Throttle))
 		}
-		fmt.Printf("Downloading %s to %s...\n", config.url, outPath)
+		fmt.Printf("Downloading %s to %s...\n", config.URL, outPath)
 		go func(wg *sync.WaitGroup) {
-			err := downloadFile(outPath, config.url)
+			err := download.Download(outPath, config.URL)
 			if err != nil {
 				fmt.Printf("Failed to download %s: %s\n", file, err.Error())
 			} else {

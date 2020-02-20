@@ -4,7 +4,7 @@ tasks:
   build:
     deps: [build-dir]
     cmds:
-      - go build -o build
+      - go build -o build ./cmd/creep
 
   build-dir:
     cmds:
