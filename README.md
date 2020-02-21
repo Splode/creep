@@ -27,8 +27,10 @@ Install a prebuilt binary from the [releases page](https://github.com/Splode/cre
 
 ### Build from Source
 
+Clone this repo, then run:
+
 ```bash
-go get github.com/splode/creep
+go build ./cmd/creep
 ```
 
 ## Usage
