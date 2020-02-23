@@ -8,7 +8,7 @@ builds:
     - linux
     - windows
   ldflags:
-    - -s -w -X github.com/Splode/creep/internal/flags.Version={{ .Version }}
+    - -s -w -X github.com/Splode/creep/pkg/flags.Version={{ .Version }}
 archives:
 - replacements:
     darwin: macOS

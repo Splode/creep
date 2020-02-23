@@ -7,8 +7,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Splode/creep/internal/download"
-	"github.com/Splode/creep/internal/flags"
+	"github.com/Splode/creep/pkg/download"
+	"github.com/Splode/creep/pkg/flags"
 )
 
 func main() {

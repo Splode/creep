@@ -28,4 +28,4 @@ jobs:
       run: go build -v ./cmd/creep
 
     - name: Test-download
-      run: go test ./internal/download
+      run: go test ./pkg/download
