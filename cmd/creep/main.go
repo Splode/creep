@@ -50,6 +50,6 @@ func main() {
 // exit prints the given message to the console and terminates the application
 // with an error-code.
 func exit(msg string) {
-	fmt.Println(msg)
+	fmt.Fprintln(os.Stderr, msg)
 	os.Exit(1)
 }
