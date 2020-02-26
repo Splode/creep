@@ -14,6 +14,8 @@ func TestImageFile(t *testing.T) {
 		URL         string
 	}{
 		{expectError: true, URL: ""},
+		{expectError: true, URL: "http://example.com/42"},
+		{expectError: true, URL: "http://example.com/"},
 		{expectError: false, URL: "https://source.unsplash.com/random"},
 		{expectError: false, URL: "https://thispersondoesnotexist.com/image"},
 		{expectError: false, URL: "https://picsum.photos/400"},
