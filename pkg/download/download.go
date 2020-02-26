@@ -23,15 +23,15 @@ func ImageFile(filepath, url string) error {
 	if err != nil {
 		return err
 	}
-	// attempt to get file ext
-	ext, err := getExtHeader(res)
-	if err != nil {
-		return err
-	}
 	defer res.Body.Close()
 	// check server response
 	if res.StatusCode != http.StatusOK {
 		return fmt.Errorf("bad status: %s", res.Status)
+	}
+	// attempt to get file ext
+	ext, err := getExtHeader(res)
+	if err != nil {
+		return err
 	}
 	// create file
 	path := fmt.Sprintf("%s.%s", filepath, ext)
