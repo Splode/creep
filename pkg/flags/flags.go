@@ -65,8 +65,8 @@ func HandleFlags() (c *Config, err error) {
 
 func generateUsage() func() {
 	return func() {
-		fmt.Printf("\ncreep %s", Version)
-		fmt.Println(`
+		fmt.Fprintf(os.Stdout, "\ncreep %s", Version)
+		fmt.Fprintf(os.Stdout, `
 
 Downloads an image from the given URL a given number of times to the specified directory.
 
@@ -86,8 +86,9 @@ Flags:
 
 Example usage:
   creep -u https://thispersondoesnotexist.com/image -c 32
-  creep --url=https://source.unsplash.com/random --name=random --out=downloads --count=64 --throttle=3
-		`)
+	creep --url=https://source.unsplash.com/random --name=random --out=downloads --count=64 --throttle=3`)
+		fmt.Println()
+		os.Exit(0)
 	}
 }
 
