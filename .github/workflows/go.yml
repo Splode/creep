@@ -29,3 +29,6 @@ jobs:
 
     - name: Test-download
       run: go test ./pkg/download
+
+    - name: Test-creep
+      run: go test ./cmd/creep
