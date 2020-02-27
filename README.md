@@ -6,7 +6,7 @@ A specialized image download utility, useful for grabbing massive amounts of ran
 
 ![Go](https://github.com/Splode/creep/workflows/Go/badge.svg?branch=master)
 
-Creep can be used to generated gobs of random image data quickly given a single URL. It has no dependencies or requirements and is cross-platform.
+Creep can be used to generate gobs of random image data quickly given a single URL. It has no dependencies or requirements and is cross-platform.
 
 - [creep](#creep)
   - [Install](#install)
