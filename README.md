@@ -2,7 +2,7 @@
 
 A specialized image download utility, useful for grabbing massive amounts of random images.
 
-<img src="./.github/banner_v1.1.png">
+<img src="./.github/banner_v1.1.png" alt="creep logo">
 
 ![Go](https://github.com/Splode/creep/workflows/Go/badge.svg?branch=master)
 
@@ -65,7 +65,7 @@ The number of times to access and download a resource. Defaults to 1.
 
 `--name`
 
-The base filename of the downloaded resource. For example, given a `count` of `3`, a `name` of `cat` and `url` that returns `jpg`, `creep` will generate the follwing list of files:
+The base filename of the downloaded resource. For example, given a `count` of `3`, a `name` of `cat` and `url` that returns `jpg`, `creep` will generate the following list of files:
 
 ```
 cat-1.jpg
