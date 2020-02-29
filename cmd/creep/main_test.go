@@ -36,12 +36,12 @@ func TestMain(m *testing.M) {
 		os.Exit(1)
 	}
 
-	imgs, err := filepath.Glob("*.jpg")
+	images, err := filepath.Glob("*.jpg")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to find downloaded image files: %s", err)
 	}
-	if len(imgs) > 0 {
-		for _, img := range imgs {
+	if len(images) > 0 {
+		for _, img := range images {
 			if err := os.Remove(img); err != nil {
 				fmt.Fprintf(os.Stderr, "Failed to remove image file %s: %s", img, err)
 				os.Exit(1)
