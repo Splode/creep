@@ -21,6 +21,9 @@ func TestImageFile(t *testing.T) {
 		{expectError: false, URL: "https://picsum.photos/400"},
 		// {expectError: false, URL: "http://lorempixel.com/400/200"},
 		{expectError: false, URL: "https://thiscatdoesnotexist.com/"},
+		{expectError: false, URL: "https://loremflickr.com/320/240"},
+		{expectError: false, URL: "https://placeimg.com/640/480/any"},
+		{expectError: false, URL: "http://placegoat.com/200"},
 	}
 	for i, tc := range testCases {
 		path := fmt.Sprintf("test-%d", i)
