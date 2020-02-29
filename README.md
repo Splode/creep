@@ -112,6 +112,9 @@ The following URLs will serve a random image upon request:
 - Picsum [https://picsum.photos/400](https://picsum.photos/400)
 - Lorem Pixel [http://lorempixel.com/400](http://lorempixel.com/400)
 - This Cat Does Not Exist [https://thiscatdoesnotexist.com/](https://thiscatdoesnotexist.com/)
+- PlaceGOAT [http://placegoat.com/200](http://placegoat.com/200)
+- PlaceIMG [https://placeimg.com/640/480/any](https://placeimg.com/640/480/any)
+- LoremFlickr [https://loremflickr.com/320/240](https://loremflickr.com/320/240)
 
 ## Why
 
