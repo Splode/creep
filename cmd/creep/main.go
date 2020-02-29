@@ -14,7 +14,8 @@ import (
 func main() {
 	config, err := flags.HandleFlags()
 	if err != nil {
-		exit(fmt.Sprintf("Failed to parse arguments: %s", err.Error()))
+		fmt.Fprintf(os.Stderr, "Failed to parse arguments: %s", err)
+		os.Exit(1)
 	}
 
 	var wg sync.WaitGroup
@@ -45,11 +46,4 @@ func main() {
 		}(&wg)
 	}
 	wg.Wait()
-}
-
-// exit prints the given message to the console and terminates the application
-// with an error-code.
-func exit(msg string) {
-	fmt.Fprintln(os.Stderr, msg)
-	os.Exit(1)
 }
