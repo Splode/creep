@@ -22,14 +22,12 @@ func TestImageFile(t *testing.T) {
 		// {expectError: false, URL: "http://lorempixel.com/400/200"},
 		{expectError: false, URL: "https://thiscatdoesnotexist.com/"},
 	}
-
 	for i, tc := range testCases {
 		path := fmt.Sprintf("test-%d", i)
 		f, err := ioutil.TempFile("", path)
 		if err != nil {
 			t.Fatalf("error creating temp file: %s", err)
 		}
-		defer os.Remove(f.Name())
 
 		err = ImageFile(f.Name(), tc.URL)
 
@@ -41,6 +39,10 @@ func TestImageFile(t *testing.T) {
 			if err != nil {
 				t.Fatalf("ImageFile returned unexpected error: %s: %v", tc.URL, err)
 			}
+		}
+
+		if err := os.Remove(f.Name()); err != nil {
+			t.Fatalf("Failed to remove temporary image file %q: %q", f.Name(), err)
 		}
 	}
 }
