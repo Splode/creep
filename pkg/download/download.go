@@ -8,38 +8,48 @@ import (
 	"os"
 )
 
-var (
-	mimes = map[string]string{
-		"image/.jpg": "jpg",
-		"image/jpeg": "jpg",
-		"image/png":  "png",
-	}
-)
+var mimes = map[string]string{
+	"image/.jpg": "jpg",
+	"image/jpeg": "jpg",
+	"image/png":  "png",
+}
 
 // ImageFile saves the request body from a given URL to the provided filepath.
-func ImageFile(filepath, url string) error {
+func ImageFile(filepath, url string) (err error) {
 	// get data
 	res, err := http.Get(url)
 	if err != nil {
 		return err
 	}
-	defer res.Body.Close()
+	defer func() {
+		if err := res.Body.Close(); err != nil {
+			err = err.(error)
+		}
+	}()
+
 	// check server response
 	if res.StatusCode != http.StatusOK {
 		return fmt.Errorf("bad status: %s", res.Status)
 	}
+
 	// attempt to get file ext
 	ext, err := getExtHeader(res)
 	if err != nil {
 		return err
 	}
+
 	// create file
 	path := fmt.Sprintf("%s.%s", filepath, ext)
 	out, err := os.Create(path)
 	if err != nil {
 		return err
 	}
-	defer out.Close()
+	defer func() {
+		if err := out.Close(); err != nil {
+			err = err.(error)
+		}
+	}()
+
 	// write body to file
 	_, err = io.Copy(out, res.Body)
 	if err != nil {
