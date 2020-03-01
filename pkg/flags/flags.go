@@ -24,8 +24,6 @@ type Config struct {
 func HandleFlags() (c *Config, err error) {
 	c = &Config{}
 	v := false
-	flag.StringVar(&c.URL, "url", "", "")
-	flag.StringVar(&c.URL, "u", "", "")
 	flag.StringVar(&c.Name, "name", "creep", "")
 	flag.StringVar(&c.Name, "n", "creep", "")
 	flag.UintVar(&c.Count, "count", 1, "")
@@ -38,6 +36,7 @@ func HandleFlags() (c *Config, err error) {
 	flag.BoolVar(&v, "v", false, "")
 	flag.Usage = generateUsage()
 	flag.Parse()
+	c.URL = flag.Arg(0)
 
 	if v {
 		fmt.Println(Version)
@@ -71,10 +70,12 @@ func generateUsage() func() {
 Downloads an image from the given URL a given number of times to the specified directory.
 
 Usage:
-  creep [FLAGS] [OPTIONS]
+  creep [URL] [FLAGS] [OPTIONS]
+
+URL:
+  The URL of the resource to access (required)
 
 Options:
-  -u, --url string        The URL of the resource to access (required)
   -c, --count int         The number of times to access the resource (defaults to 1)
   -n, --name string       The base filename to use as output (defaults to "creep")
   -o, --out string        The output directory path (defaults to current directory)
@@ -85,8 +86,8 @@ Flags:
   -v, --version           Prints version information
 
 Example usage:
-  creep -u https://thispersondoesnotexist.com/image -c 32
-	creep --url=https://source.unsplash.com/random --name=random --out=downloads --count=64 --throttle=3`)
+  creep https://thispersondoesnotexist.com/image -c 32
+  creep https://source.unsplash.com/random --name=random --out=downloads --count=64 --throttle=3`)
 		fmt.Println()
 		os.Exit(0)
 	}
