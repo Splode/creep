@@ -14,7 +14,7 @@ import (
 func main() {
 	config, err := flags.HandleFlags()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to parse arguments: %s", err)
+		fmt.Fprintf(os.Stderr, "Failed to parse arguments: %s\n", err)
 		os.Exit(1)
 	}
 

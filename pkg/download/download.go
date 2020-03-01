@@ -51,8 +51,7 @@ func ImageFile(filepath, url string) (err error) {
 	}()
 
 	// write body to file
-	_, err = io.Copy(out, res.Body)
-	if err != nil {
+	if _, err = io.Copy(out, res.Body); err != nil {
 		return err
 	}
 
