@@ -39,10 +39,13 @@ Simply pass in a URL that returns an image to `creep` to download. Pass in a num
 
 ```
 Usage:
-  creep [FLAGS] [OPTIONS]
+  creep [URL] [FLAGS] [OPTIONS]
+
+URL:
+  The URL of the resource to access (required)
 
 Options:
-  -u, --url string        The URL of the resource to access (required)
+  -c, --count int         The number of times to access the resource (defaults to 1)
   -c, --count int         The number of times to access the resource (defaults to 1)
   -n, --name string       The base filename to use as output (defaults to "creep")
   -o, --out string        The output directory path (defaults to current directory)
@@ -55,7 +58,7 @@ Flags:
 
 ### Options
 
-`--url`
+`URL`
 
 Specifies the HTTP URL of the image resource to access. This is the only required argument.
 
@@ -88,19 +91,19 @@ Throttles downloads by the given number of seconds. Some URLs will return a give
 Download `32` random images to the current directory.
 
 ```bash
- creep -u https://thispersondoesnotexist.com/image -c 32
+ creep https://thispersondoesnotexist.com/image -c 32
 ```
 
 Download `64` random images using the base filename `random` to the `downloads` folder, throttling the download rate to `3` seconds.
 
 ```bash
-creep --url=https://source.unsplash.com/random --name=random --out=downloads --count=64 --throttle=3
+creep https://source.unsplash.com/random --name=random --out=downloads --count=64 --throttle=3
 ```
 
 Download a single random image to the current directory.
 
 ```bash
-creep -u https://source.unsplash.com/random
+creep https://source.unsplash.com/random
 ```
 
 ### Sample URLs
