@@ -91,13 +91,13 @@ Throttles downloads by the given number of seconds. Some URLs will return a give
 Download `32` random images to the current directory.
 
 ```bash
- creep https://thispersondoesnotexist.com/image -c 32
+creep -c 32 https://thispersondoesnotexist.com/image
 ```
 
 Download `64` random images using the base filename `random` to the `downloads` folder, throttling the download rate to `3` seconds.
 
 ```bash
-creep https://source.unsplash.com/random --name=random --out=downloads --count=64 --throttle=3
+creep --name=random --out=downloads --count=64 --throttle=3 https://source.unsplash.com/random
 ```
 
 Download a single random image to the current directory.
