@@ -70,7 +70,7 @@ func generateUsage() func() {
 Downloads an image from the given URL a given number of times to the specified directory.
 
 Usage:
-  creep [URL] [FLAGS] [OPTIONS]
+  creep [FLAGS] [OPTIONS] [URL]
 
 URL:
   The URL of the resource to access (required)
@@ -86,8 +86,8 @@ Flags:
   -v, --version           Prints version information
 
 Example usage:
-  creep https://thispersondoesnotexist.com/image -c 32
-  creep https://source.unsplash.com/random --name=random --out=downloads --count=64 --throttle=3`)
+  creep -c 32 https://thispersondoesnotexist.com/image
+  creep --name=random --out=downloads --count=64 --throttle=3 https://source.unsplash.com/random`)
 		fmt.Println()
 		os.Exit(0)
 	}
