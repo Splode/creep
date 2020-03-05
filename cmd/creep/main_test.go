@@ -94,7 +94,7 @@ func TestCreepCLI(t *testing.T) {
 	})
 
 	t.Run("DownloadMultipleImages", func(t *testing.T) {
-		args := "https://source.unsplash.com/random -c 2"
+		args := "-c 2 https://source.unsplash.com/random"
 		cmd := exec.Command(cmdPath, strings.Split(args, " ")...)
 		if err := cmd.Run(); err != nil {
 			t.Fatal(err)
@@ -102,7 +102,7 @@ func TestCreepCLI(t *testing.T) {
 	})
 
 	t.Run("DownloadSingleImageWithName", func(t *testing.T) {
-		args := "https://source.unsplash.com/random -n test"
+		args := "-n test https://source.unsplash.com/random"
 		cmd := exec.Command(cmdPath, strings.Split(args, " ")...)
 		if err := cmd.Run(); err != nil {
 			t.Fatal(err)
@@ -110,7 +110,7 @@ func TestCreepCLI(t *testing.T) {
 	})
 
 	t.Run("DownloadSingleImageWithPath", func(t *testing.T) {
-		args := "https://source.unsplash.com/random -o test"
+		args := "-o test https://source.unsplash.com/random"
 		cmd := exec.Command(cmdPath, strings.Split(args, " ")...)
 		if err := cmd.Run(); err != nil {
 			t.Fatal(err)
@@ -122,7 +122,7 @@ func TestCreepCLI(t *testing.T) {
 	})
 
 	t.Run("DownloadMultipleImagesWithThrottle", func(t *testing.T) {
-		args := "https://source.unsplash.com/random -c 2 -t 4"
+		args := "-c 2 -t 4 https://source.unsplash.com/random"
 		cmd := exec.Command(cmdPath, strings.Split(args, " ")...)
 		if err := cmd.Run(); err != nil {
 			t.Fatal(err)
