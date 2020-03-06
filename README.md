@@ -39,7 +39,7 @@ Simply pass in a URL that returns an image to `creep` to download. Pass in a num
 
 ```
 Usage:
-  creep [URL] [FLAGS] [OPTIONS]
+  creep [FLAGS] [OPTIONS] [URL]
 
 URL:
   The URL of the resource to access (required)
