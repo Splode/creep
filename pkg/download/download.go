@@ -6,12 +6,57 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"path/filepath"
+	"sync"
+	"time"
 )
 
 var mimes = map[string]string{
 	"image/.jpg": "jpg",
 	"image/jpeg": "jpg",
+	"image/jpg":  "jpg",
 	"image/png":  "png",
+}
+
+// Config represents the command-line configuration options.
+type Config struct {
+	Count    uint
+	Name     string
+	Out      string
+	Throttle uint
+	URL      string
+}
+
+// Batch downloads a batch of images given a set of options.
+func Batch(config *Config) (errs []error) {
+	var wg sync.WaitGroup
+	wg.Add(int(config.Count))
+
+	for i := 1; i <= int(config.Count); i++ {
+		file := fmt.Sprintf("%s-%d", config.Name, i)
+		outPath := filepath.Join(config.Out, file)
+		if config.Throttle > 0 && i > 1 {
+			var s string
+			if config.Throttle > 1 {
+				s = "seconds"
+			} else {
+				s = "second"
+			}
+			fmt.Printf("Throttling for %d %s...\n", config.Throttle, s)
+			time.Sleep(time.Second * time.Duration(config.Throttle))
+		}
+		fmt.Printf("Downloading %s to %s...\n", config.URL, outPath)
+		go func(wg *sync.WaitGroup) {
+			if err := ImageFile(outPath, config.URL); err != nil {
+				errs = append(errs, fmt.Errorf("Failed to download %s: %s\n", file, err.Error()))
+			} else {
+				fmt.Printf("Successfully downloaded %s to %s\n", file, outPath)
+			}
+			wg.Done()
+		}(&wg)
+	}
+	wg.Wait()
+	return errs
 }
 
 // ImageFile saves the request body from a given URL to the provided filepath.
