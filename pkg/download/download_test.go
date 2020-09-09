@@ -78,13 +78,13 @@ func TestImageFile(t *testing.T) {
 		{expectError: true, URL: "http://example.com/"},
 		{expectError: false, URL: "https://source.unsplash.com/random"},
 		{expectError: false, URL: "https://thispersondoesnotexist.com/image"},
-		{expectError: false, URL: "https://picsum.photos/400"},
+		//{expectError: false, URL: "https://picsum.photos/400"},
 		// {expectError: false, URL: "http://lorempixel.com/400/200"},
-		{expectError: false, URL: "https://thiscatdoesnotexist.com/"},
-		{expectError: false, URL: "https://loremflickr.com/320/240"},
-		{expectError: false, URL: "https://placeimg.com/640/480/any"},
-		{expectError: false, URL: "http://placegoat.com/200"},
-		{expectError: false, URL: "https://thisartworkdoesnotexist.com/artwork"},
+		//{expectError: false, URL: "https://thiscatdoesnotexist.com/"},
+		//{expectError: false, URL: "https://loremflickr.com/320/240"},
+		//{expectError: false, URL: "https://placeimg.com/640/480/any"},
+		//{expectError: false, URL: "http://placegoat.com/200"},
+		//{expectError: false, URL: "https://thisartworkdoesnotexist.com/artwork"},
 	}
 	for i, tc := range testCases {
 		p := fmt.Sprintf("test-%d", i)
