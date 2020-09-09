@@ -117,7 +117,7 @@ The following URLs will serve a random image upon request:
 - PlaceGOAT [http://placegoat.com/200](http://placegoat.com/200)
 - PlaceIMG [https://placeimg.com/640/480/any](https://placeimg.com/640/480/any)
 - LoremFlickr [https://loremflickr.com/320/240](https://loremflickr.com/320/240)
-- This Artwork Does Not Exist [https://thisartworkdoesnotexist.com/artwork](https://thisartworkdoesnotexist.com/artwork)
+- This Artwork Does Not Exist [https://thisartworkdoesnotexist.com](https://thisartworkdoesnotexist.com)
 - This Horse Does Not Exist [https://thishorsedoesnotexist.com/](https://thishorsedoesnotexist.com/)
 
 ## Why
